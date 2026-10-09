@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /member/
+Disallow: /author/
+Disallow: /application/
+Disallow: /invoice/
+Sitemap: https://premiumden.co.ke/sitemap.xml

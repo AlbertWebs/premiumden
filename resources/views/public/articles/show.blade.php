@@ -1,0 +1,9 @@
+@extends(auth()->user()?->hasActiveMembership() ? 'layouts.member' : 'layouts.public')
+@section('title', $article->seo_title ?: $article->title)
+@section('meta_description', $article->seo_description ?: $article->excerpt ?: 'An article from Premium Business Den.')
+@if($article->og_image_path)@section('og_image', Storage::disk('public')->url($article->og_image_path))@elseif($article->featured_image_path)@section('og_image', Storage::disk('public')->url($article->featured_image_path))@endif
+@section('content')
+@php($articleSchema = ['@context' => 'https://schema.org', '@type' => 'Article', 'headline' => $article->title, 'description' => $article->seo_description ?: $article->excerpt, 'datePublished' => $article->published_at?->toIso8601String(), 'author' => ['@type' => 'Person', 'name' => $article->author->name], 'publisher' => ['@type' => 'Organization', 'name' => 'Premium Business Den']])
+<script type="application/ld+json">@json($articleSchema)</script>
+<article class="article-reading"><a class="back-to-directory" href="{{ route('articles.index') }}">← All articles</a><p class="eyebrow">{{ $article->category?->name ?? 'The Den' }} · {{ $article->published_at->format('j F Y') }}</p><h1>{{ $article->title }}</h1>@if($article->excerpt)<p class="article-deck">{{ $article->excerpt }}</p>@endif<div class="article-author">By {{ $article->author->name }}@if($article->category) <span>·</span> {{ $article->category->name }}@endif</div>@if($article->featured_image_path)<img class="article-featured-image" src="{{ Storage::disk('public')->url($article->featured_image_path) }}" alt="">@endif<div class="article-body">{!! app(\App\Services\ArticleBodyFormatter::class)->render($article->body) !!}</div>@if($article->tags->isNotEmpty())<div class="article-tags">@foreach($article->tags as $tag)<span>{{ $tag->name }}</span>@endforeach</div>@endif</article>
+@endsection

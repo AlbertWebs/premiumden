@@ -1,0 +1,6 @@
+@extends('layouts.admin')
+@section('title', 'Member deals')
+@section('content')
+<div class="admin-page-heading"><div><p class="eyebrow">Member experience / Opportunities</p><h1>Member deals</h1><p>Publish partner opportunities and review member applications.</p></div><a class="button" href="{{ route('admin.deals.create') }}">Add an opportunity</a></div>
+<section class="admin-table-section"><div class="table-scroll"><table class="admin-table admin-deals-table"><thead><tr><th>Opportunity</th><th>Partner</th><th>Audience</th><th>Documents</th><th>Applications</th><th>Closes</th><th>Status</th><th></th></tr></thead><tbody>@forelse($deals as $deal)<tr><td><strong>{{ $deal->title }}</strong><small>{{ $deal->category }}</small></td><td>{{ $deal->partner }}</td><td>{{ $deal->targetPackage?->name ?? 'All active members' }}</td><td>{{ $deal->documents_count }}</td><td><a class="table-link" href="{{ route('admin.deals.applications', $deal) }}">{{ $deal->applications_count }} applications</a></td><td>{{ $deal->closes_at?->format('j M Y') ?? 'Open-ended' }}</td><td>{{ $deal->is_active ? 'Published' : 'Draft' }}</td><td><a class="table-link" href="{{ route('admin.deals.edit', $deal) }}">Edit</a></td></tr>@empty<tr><td colspan="8">No member opportunities created yet.</td></tr>@endforelse</tbody></table></div>{{ $deals->links() }}</section>
+@endsection

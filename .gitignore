@@ -1,0 +1,16 @@
+/vendor
+/node_modules
+/public/build
+/public/hot
+/.env
+/.phpunit.cache
+/bootstrap/cache/*.php
+/storage/*.key
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/framework/testing/disks/**
+/storage/logs/*.log
+/storage/app/private/**
+!/storage/app/private/.gitkeep
+/database/*.sqlite

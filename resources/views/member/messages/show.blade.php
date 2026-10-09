@@ -1,0 +1,8 @@
+@extends('layouts.member')
+@section('title', 'Conversation with '.$other->name)
+@section('content')
+<section class="conversation-page"><a class="back-to-directory" href="{{ route('member.messages.index') }}">← All messages</a><header class="conversation-heading"><div class="member-avatar">{{ collect(explode(' ', $other->name))->map(fn($part) => mb_substr($part, 0, 1))->take(2)->implode('') }}</div><div><h1>{{ $other->name }}</h1><p>{{ $other->membershipPackage->name }} member</p></div></header>
+    <div class="message-thread">@if($messages->isEmpty())<p class="thread-empty">This is the beginning of your conversation.</p>@endif @foreach($messages as $message)<article id="message-{{ $message->id }}" class="message-bubble {{ $message->sender_id === auth()->id() ? 'message-own' : 'message-incoming' }}"><p>{{ $message->body }}</p><small>{{ $message->sender_id === auth()->id() ? 'You' : $message->sender->name }} · {{ $message->created_at->format('j M, H:i') }}</small></article>@endforeach</div>
+    @if($other->membership_active && $other->membershipPackage?->is_active)<form class="message-compose" method="POST" action="{{ route('member.messages.store', $conversation) }}">@csrf<label for="body">Write a message</label><textarea id="body" name="body" rows="3" maxlength="5000" required placeholder="Write with care and respect for your fellow member.">{{ old('body') }}</textarea>@error('body')<span class="field-error">{{ $message }}</span>@enderror<button class="button" type="submit">Send message <span aria-hidden="true">↗</span></button></form>@else<div class="message-unavailable">This member’s portal access is inactive. You can no longer send messages in this conversation.</div>@endif
+</section>
+@endsection

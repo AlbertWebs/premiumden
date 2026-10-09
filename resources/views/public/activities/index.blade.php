@@ -1,0 +1,9 @@
+@extends(request()->routeIs('member.activities.*') ? 'layouts.member' : 'layouts.public')
+@section('title', 'Society activity')
+@section('content')
+@unless(request()->routeIs('member.activities.*'))<section class="activity-hero"><div class="activity-hero-inner"><div><p class="eyebrow"><span class="eyebrow-line"></span>Premium Business Den / Society notes</p><h1>Society <em>activity.</em></h1><p>Updates and moments from the community.</p></div><span class="listing-seal" aria-hidden="true"><b>PB</b><i></i><small>In motion</small></span></div></section>@endunless
+<section class="article-index activity-index">
+    @if($activities->isEmpty())<div class="directory-empty"><span class="empty-emblem">P<span>·</span>D</span><h2>Updates are on the way.</h2><p>Society news and activities will appear here.</p></div>@else<div class="article-grid">@foreach($activities as $activity)<article class="article-card activity-card">@if($activity->featured_image_path)<img class="article-card-image" src="{{ Storage::disk('public')->url($activity->featured_image_path) }}" alt="{{ $activity->title }}" loading="lazy" decoding="async">@endif<p class="eyebrow">{{ $activity->category }} <span>·</span> {{ $activity->published_at->format('j F Y') }}</p><h2><a href="{{ route('activities.show', $activity->slug) }}">{{ $activity->title }}</a></h2><p>{{ $activity->excerpt }}</p><a class="text-link" href="{{ route('activities.show', $activity->slug) }}">Read update <span aria-hidden="true">↗</span></a></article>@endforeach</div>{{ $activities->links() }}@endif
+</section>
+@if(request()->routeIs('member.activities.*'))<section class="activity-hero"><div class="activity-hero-inner"><div><p class="eyebrow"><span class="eyebrow-line"></span>Member space / Activity</p><h1>Society <em>activity.</em></h1><p>Updates and moments from the community.</p></div><span class="listing-seal" aria-hidden="true"><b>PB</b><i></i><small>In motion</small></span></div></section>@endif
+@endsection

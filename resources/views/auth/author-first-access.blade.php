@@ -1,0 +1,5 @@
+@extends('layouts.public')
+@section('title', 'Set up author access')
+@section('content')
+<section class="login-page"><div class="login-aside"><p class="eyebrow eyebrow-light">Author invitation</p><h1>Welcome to<br>the <em>Den.</em></h1><p>Create a password to open your private writing studio.</p></div><div class="login-form-wrap"><form class="login-form" method="POST" action="{{ url()->current() }}?{{ request()->getQueryString() }}"><h2>Set your password</h2><p>{{ $author->name }} · {{ $author->email }}</p>@csrf<label for="password">New password</label><input id="password" name="password" type="password" minlength="12" autocomplete="new-password" required>@error('password')<span class="field-error">{{ $message }}</span>@enderror<label for="password_confirmation">Confirm password</label><input id="password_confirmation" name="password_confirmation" type="password" minlength="12" autocomplete="new-password" required><button class="button button-full" type="submit">Activate author access <span aria-hidden="true">→</span></button><p class="form-note">Use at least 12 characters. This one-time link expires shortly.</p></form></div></section>
+@endsection

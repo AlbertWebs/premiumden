@@ -1,0 +1,3 @@
+@extends('layouts.member')
+@section('title', 'Member benefits')
+@section('content')<section class="member-benefits member-benefit-list-only section-wrap"><div><p class="eyebrow">Available to you</p><ul class="feature-list">@forelse(($member->membershipPackage->benefits ?? []) as $benefit)<li>{{ $benefit }}</li>@empty<li>Your membership benefits are being updated. Contact the membership team for details.</li>@endforelse</ul></div></section><section class="page-hero"><p class="eyebrow">Your membership / Benefits</p><h1>{{ $member->membershipPackage->name }}<br><em>benefits.</em></h1><p>{{ $member->membershipPackage->description }}</p></section>@endsection
